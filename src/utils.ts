@@ -1,6 +1,54 @@
-import { Node } from "reactflow";
-import { FamilyMemberNodeData } from "./FamilyComponents/FamilyMemberNode";
+import type { FamilyMemberNode } from "./FamilyComponents/types";
 import { FamilyMember, FamilyMembers, FamilyRelations, RelationTypes } from "./tree/types";
+
+/**
+ * Creates a new array with only uniq values.
+ *
+ * @param array - The array from which to remove duplicates.
+ * @returns A new array with unique values.
+**/
+export const uniq = <T>(array: T[]): T[] => Array.from(new Set(array))
+
+type Comparator <T> = (a: T, b: T) => boolean
+/**
+ * Creates a new array with unique values based on a custom comparator function.
+ * The comparator function is used to determine the uniqueness of elements.
+ *
+ * @param array - The array from which to remove duplicates.
+ * @param comparator - A function that compares two elements for equality.
+ * @returns array A new array with unique values based on the comparator.
+**/
+export const uniqWith = <T>(array: T[], comparator: Comparator<T>): T[] => array.reduce(
+    (acc, curr) => {
+        if (!acc.some(existingItem => comparator(existingItem, curr))) {
+            acc.push(curr)
+        }
+        return acc
+    },
+    Array<T>(),
+)
+
+type UnaryFunction<T, R> = (arg: T) => R;
+/**
+ * Creates a new array with unique values based on the result of an iteratee function.
+ * The iteratee function is used to extract a key or compute a value from each element to determine uniqueness.
+ *
+ * @param array - The array from which to remove duplicates.
+ * @param iteratee - A function that extracts a key from each element to determine uniqueness.
+ * 
+ * @returns A new array with unique values based on the iteratee function.
+ */
+export const uniqBy = <T, R>(array: T[], iteratee: UnaryFunction<T, R>): T[] => {
+    const seen = new Set<R>();
+    return array.filter(item => {
+        const key = iteratee(item);
+        if (seen.has(key)) {
+            return false;
+        }
+        seen.add(key);
+        return true;
+    });
+}
 
 export type RawFamilyMember = {
     id: string;
@@ -67,6 +115,6 @@ export function buildFamilyAndRelations(rawFamily: RawFamilyMember[], rawRelatio
 
     return [familyMembers, familyRelations] as const;
 }
-export function nodeColorForMinimap(node: Node<FamilyMemberNodeData>) {
+export function nodeColorForMinimap(node: FamilyMemberNode) {
     return node.data.titleBgColor;
 }

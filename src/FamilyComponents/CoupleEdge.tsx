@@ -1,15 +1,13 @@
-import { useCallback } from "react";
-import { BaseEdge, EdgeProps, Node, getStraightPath, useEdges, useNodes, useStore } from "reactflow";
+import { BaseEdge, EdgeProps, Node, getStraightPath, useEdges, useNodes, useInternalNode } from "@xyflow/react";
 import { calcCoupleEdgeYOffset } from "../tree/utils";
 
-export type CoupleEdgeProps = EdgeProps;
 export const CoupleEdgeTypeKey = "couple";
 
 function getNodeCenter(node: Node) {
-    const w = (node.width ?? 0) / 2;
-    const h = (node.height ?? 0) / 2;
-    const nodeX = node.position?.x ?? 0;
-    const nodeY = node.position?.y ?? 0;
+    const w = (node.measured?.width ?? 0) / 2;
+    const h = (node.measured?.height ?? 0) / 2;
+    const nodeX = node.position.x ?? 0;
+    const nodeY = node.position.y ?? 0;
 
     const x = nodeX + w;
     const y = nodeY + h;
@@ -17,9 +15,9 @@ function getNodeCenter(node: Node) {
     return { x, y };
 }
 
-export default function CoupleEdge({ id, source, target, style }: CoupleEdgeProps) {
-    const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
-    const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
+export default function CoupleEdge({ id, source, target, style }: EdgeProps) {
+    const sourceNode = useInternalNode(source);
+    const targetNode = useInternalNode(target);
     const edges = useEdges();
     const nodes = useNodes();
 
@@ -56,8 +54,6 @@ export default function CoupleEdge({ id, source, target, style }: CoupleEdgeProp
     });
 
     return (
-        <>
-            <BaseEdge id={id} path={edgePath} style={style} />
-        </>
+        <BaseEdge id={id} path={edgePath} style={style} />
     );
 }

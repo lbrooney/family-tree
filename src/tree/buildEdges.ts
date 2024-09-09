@@ -1,12 +1,12 @@
-import { Edge } from "reactflow";
-import { InnerFamilyEdgeData, InnerFamilyTypeKey } from "../FamilyComponents/InnerFamilyEdge";
+import type { Edge } from "@xyflow/react";
+import { InnerFamilyTypeKey } from "../FamilyComponents/InnerFamilyEdge";
 import { EDGE_YGAP_MODIFIER, GENERATION_HEIGHT } from "../tree/constants";
 import { isOddModifer, isRelationSharingKids as isRelationPossibleCouple } from "../tree/utils";
 import { EDGES_COLORS } from "./constants";
 import { FamilyMember, FamilyRelation, Generation, OTHERS_GENERATION, ParentsChildrens } from "./types";
-import uniq from "lodash/uniq";
-import uniqWith from "lodash/uniqWith";
+import { uniq, uniqWith } from "../utils";
 import { CoupleEdgeTypeKey } from "../FamilyComponents/CoupleEdge";
+import { InnerFamilyEdge } from "../FamilyComponents/types";
 
 type PreEdge = {
     id: string;
@@ -16,7 +16,7 @@ type PreEdge = {
     generation: Generation;
 };
 
-function buildEdge({ from, to, id, familyIndex, offsetY }: PreEdge & { offsetY: number }): Edge<InnerFamilyEdgeData> {
+function buildEdge({ from, to, id, familyIndex, offsetY }: PreEdge & { offsetY: number }): InnerFamilyEdge {
     const color = EDGES_COLORS[familyIndex % EDGES_COLORS.length];
 
     return {

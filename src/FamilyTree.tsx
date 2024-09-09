@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ReactFlow, { MiniMap } from "reactflow";
+import { ReactFlow, MiniMap } from "@xyflow/react";
 import CoupleEdge, { CoupleEdgeTypeKey } from "./FamilyComponents/CoupleEdge";
 import { FamilyMemberNodeComp } from "./FamilyComponents/FamilyMemberNode";
 import InnerFamilyEdge, { InnerFamilyTypeKey } from "./FamilyComponents/InnerFamilyEdge";

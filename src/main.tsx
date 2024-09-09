@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { ReactFlowProvider } from "reactflow";
-import { RawFamilyMember, buildFamilyAndRelations, RawFamilyRelation } from "./utils.ts";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { ReactFlowProvider } from "@xyflow/react";
+import { RawFamilyMember, buildFamilyAndRelations, RawFamilyRelation } from "./utils";
+import { FamilyTree } from "./FamilyTree";
 import rawFamily from "../tests/family1.json";
-import { FamilyTree } from "./FamilyTree.tsx";
-import "reactflow/dist/style.css";
+import "./index.css";
+import '@xyflow/react/dist/style.css';
 
 declare global {
     interface Window {
@@ -31,20 +31,18 @@ window.showTree = (
     );
     const rootMember = rootId ? familyMembersRecord[rootId] : Object.values(familyMembersRecord)[0];
 
-    ReactDOM.createRoot(element).render(
-        <React.StrictMode>
+    createRoot(element).render(
+        <StrictMode>
             <ReactFlowProvider>
-                <ReactFlowProvider>
-                    <div style={{ height: "100vh", width: "100vw" }}>
-                        <FamilyTree
-                            familyMembers={familyMembersRecord}
-                            familyRelations={familyRelationsRecord}
-                            rootMember={rootMember}
-                        />
-                    </div>
-                </ReactFlowProvider>
+                <div style={{ height: "100vh", width: "100%" }}>
+                    <FamilyTree
+                        familyMembers={familyMembersRecord}
+                        familyRelations={familyRelationsRecord}
+                        rootMember={rootMember}
+                    />
+                </div>
             </ReactFlowProvider>
-        </React.StrictMode>
+        </StrictMode>
     );
 };
 

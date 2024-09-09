@@ -1,25 +1,9 @@
-import { useMemo } from "react";
-import { Handle, Node, NodeProps, Position } from "reactflow";
-import Female from "./female.svg";
-import Male from "./male.svg";
+import { memo } from "react";
+import { Handle, NodeProps, Position } from "@xyflow/react";
+import type { BadgeData, FamilyMemberNode } from "./types";
+import Female from "./Female";
+import Male from "./Male";
 import "./FamilyMemberNode.css";
-import { BadgeData } from "../tree/types.ts";
-
-export type FamilyMemberNodeData = {
-    subtitles: string[];
-    badges: BadgeData[];
-    title: string;
-    titleBgColor: string;
-    titleTextColor: string;
-    sex: "M" | "F";
-    imageUrl?: string;
-    isRoot?: boolean;
-    relationToSelected?: string | null;
-    onVisibilityChange: (isVisible: boolean) => void;
-    isHidden?: boolean;
-};
-
-export type FamilyMemberNode = Node<FamilyMemberNodeData>;
 
 function Chips({ label, bgColor, textColor }: BadgeData) {
     return (
@@ -29,27 +13,32 @@ function Chips({ label, bgColor, textColor }: BadgeData) {
     );
 }
 
+interface ProfileImageProps {
+    imageUrl?: string
+    sex: 'M' | 'F'
+}
+const ProfileImageMemo = memo(function ProfileImage({imageUrl, sex}: ProfileImageProps) {
+    if (imageUrl) {
+        return <img src={imageUrl} alt={sex} width="40px" height="40px" />;
+    }
+    if (sex === "F") {
+        return <Female width="40px" height="40px" />;
+    }
+    if (sex === "M") {
+        return <Male width="40px" height="40px" />;
+    }
+    return undefined;
+})
+
 function changeLabelVisibility(id: string, visibility: string) {
     const elementById = document.getElementById(id);
     if (elementById !== null) {
         elementById.style.visibility = visibility;
     }
 }
-function FamilyMemberNodeUI({ id, data }: NodeProps<FamilyMemberNodeData>) {
+function FamilyMemberNodeUI({ id, data }: NodeProps<FamilyMemberNode>) {
     const titleBgColor = data.titleBgColor;
     const titleTextColor = data.titleTextColor;
-    const profileImg = useMemo(() => {
-        if (data.imageUrl) {
-            return data.imageUrl;
-        }
-        if (data.sex == "F") {
-            return Female;
-        }
-        if (data.sex == "M") {
-            return Male;
-        }
-        return null;
-    }, [data.sex, data.imageUrl]);
 
     if (data.isHidden) {
         return (
@@ -98,7 +87,7 @@ function FamilyMemberNodeUI({ id, data }: NodeProps<FamilyMemberNodeData>) {
 
                         {data.relationToSelected && <div className="relation">relation: {data.relationToSelected}</div>}
                     </div>
-                    {profileImg && <img src={profileImg} alt={data.sex} width="40px" height="40px" />}
+                    <ProfileImageMemo imageUrl={data.imageUrl} sex={data.sex} />
                 </div>
             </div>
             <div className="chips-row">
@@ -118,6 +107,6 @@ function FamilyMemberNodeUI({ id, data }: NodeProps<FamilyMemberNodeData>) {
     );
 }
 
-export function FamilyMemberNodeComp(props: NodeProps<FamilyMemberNodeData>) {
+export function FamilyMemberNodeComp(props: NodeProps<FamilyMemberNode>) {
     return <FamilyMemberNodeUI {...props} />;
 }
