@@ -5,7 +5,7 @@ import { RawFamilyMember, buildFamilyAndRelations, RawFamilyRelation } from "./u
 import { FamilyTree } from "./FamilyTree";
 import rawFamily from "../tests/family1.json";
 import "./index.css";
-import '@xyflow/react/dist/style.css';
+import "@xyflow/react/dist/style.css";
 
 declare global {
     interface Window {

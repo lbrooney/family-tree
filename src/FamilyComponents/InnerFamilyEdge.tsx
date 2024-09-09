@@ -16,11 +16,11 @@ export default function InnerFamilyEdge({
     style,
     data
 }: EdgeProps<InnerFamilyEdge>) {
-    const reactflow = useReactFlow<FamilyMemberNode, InnerFamilyEdge>()
+    const reactflow = useReactFlow<FamilyMemberNode, InnerFamilyEdge>();
     const edges = uniqBy(
         reactflow.getEdges().filter((edge) => edge.source === source),
-        edge => edge.data?.familyIndex,
-    )
+        (edge) => edge.data?.familyIndex
+    );
     const targetNode = reactflow.getInternalNode(target);
 
     const hiddenOffset = targetNode?.data?.isHidden ? NODE_HEIGHT / 2 : 0;

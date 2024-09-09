@@ -6,10 +6,10 @@ import { FamilyMember, FamilyMembers, FamilyRelations, RelationTypes } from "./t
  *
  * @param array - The array from which to remove duplicates.
  * @returns A new array with unique values.
-**/
-export const uniq = <T>(array: T[]): T[] => Array.from(new Set(array))
+ **/
+export const uniq = <T>(array: T[]): T[] => Array.from(new Set(array));
 
-type Comparator <T> = (a: T, b: T) => boolean
+type Comparator<T> = (a: T, b: T) => boolean;
 /**
  * Creates a new array with unique values based on a custom comparator function.
  * The comparator function is used to determine the uniqueness of elements.
@@ -17,16 +17,14 @@ type Comparator <T> = (a: T, b: T) => boolean
  * @param array - The array from which to remove duplicates.
  * @param comparator - A function that compares two elements for equality.
  * @returns array A new array with unique values based on the comparator.
-**/
-export const uniqWith = <T>(array: T[], comparator: Comparator<T>): T[] => array.reduce(
-    (acc, curr) => {
-        if (!acc.some(existingItem => comparator(existingItem, curr))) {
-            acc.push(curr)
+ **/
+export const uniqWith = <T>(array: T[], comparator: Comparator<T>): T[] =>
+    array.reduce((acc, curr) => {
+        if (!acc.some((existingItem) => comparator(existingItem, curr))) {
+            acc.push(curr);
         }
-        return acc
-    },
-    Array<T>(),
-)
+        return acc;
+    }, Array<T>());
 
 type UnaryFunction<T, R> = (arg: T) => R;
 /**
@@ -35,12 +33,12 @@ type UnaryFunction<T, R> = (arg: T) => R;
  *
  * @param array - The array from which to remove duplicates.
  * @param iteratee - A function that extracts a key from each element to determine uniqueness.
- * 
+ *
  * @returns A new array with unique values based on the iteratee function.
  */
 export const uniqBy = <T, R>(array: T[], iteratee: UnaryFunction<T, R>): T[] => {
     const seen = new Set<R>();
-    return array.filter(item => {
+    return array.filter((item) => {
         const key = iteratee(item);
         if (seen.has(key)) {
             return false;
@@ -48,7 +46,7 @@ export const uniqBy = <T, R>(array: T[], iteratee: UnaryFunction<T, R>): T[] => 
         seen.add(key);
         return true;
     });
-}
+};
 
 export type RawFamilyMember = {
     id: string;

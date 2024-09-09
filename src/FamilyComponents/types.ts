@@ -27,4 +27,4 @@ type InnerFamilyEdgeData = {
     familyIndex: number;
 };
 
-export type InnerFamilyEdge =  Edge<InnerFamilyEdgeData>
+export type InnerFamilyEdge = Edge<InnerFamilyEdgeData>;

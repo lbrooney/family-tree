@@ -14,10 +14,10 @@ function Chips({ label, bgColor, textColor }: BadgeData) {
 }
 
 interface ProfileImageProps {
-    imageUrl?: string
-    sex: 'M' | 'F'
+    imageUrl?: string;
+    sex: "M" | "F";
 }
-const ProfileImageMemo = memo(function ProfileImage({imageUrl, sex}: ProfileImageProps) {
+const ProfileImageMemo = memo(function ProfileImage({ imageUrl, sex }: ProfileImageProps) {
     if (imageUrl) {
         return <img src={imageUrl} alt={sex} width="40px" height="40px" />;
     }
@@ -28,7 +28,7 @@ const ProfileImageMemo = memo(function ProfileImage({imageUrl, sex}: ProfileImag
         return <Male width="40px" height="40px" />;
     }
     return undefined;
-})
+});
 
 function changeLabelVisibility(id: string, visibility: string) {
     const elementById = document.getElementById(id);

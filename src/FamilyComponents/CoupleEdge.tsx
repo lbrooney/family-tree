@@ -53,7 +53,5 @@ export default function CoupleEdge({ id, source, target, style }: EdgeProps) {
         targetY: targetCenter.y + (offsetY ?? 0)
     });
 
-    return (
-        <BaseEdge id={id} path={edgePath} style={style} />
-    );
+    return <BaseEdge id={id} path={edgePath} style={style} />;
 }
